@@ -8,8 +8,17 @@ export const metadata= {
 }
 export default async function Product({searchParams}:{searchParams:Promise<{category?:string}>})
 {
-    const {category}=await searchParams;
-    const filtered=category? products.filter((p)=>p.category===category):products
+    const {category}=await searchParams
+    const filteredProducts = category && category !== "price=1" && category !== "price=0" ? products.filter((p) => p.category === category) : [...products];
+  const ascSort =
+    category === "price=1"
+      ? filteredProducts.sort((a, b) => a.price - b.price)
+      : filteredProducts;
+
+  const descSort =
+    category === "price=0"
+      ? filteredProducts.sort((a, b) => b.price - a.price)
+      : filteredProducts;
 
    return (
         <main className="p-8">
@@ -19,10 +28,12 @@ export default async function Product({searchParams}:{searchParams:Promise<{cate
                 <Link href="/product?categore=Laptop">Laptop</Link>
                 <Link href="/product?category=Mobile">Phone</Link>
                 <Link href="/product?category=Watch">Watches</Link>
+                <Link href="/product?category=price=1">Asc-Sort</Link>
+                <Link href="/product?category=price=0">Dec-Sort</Link>
             </div>
             <BackButton></BackButton>
             <div className="mt-6 grid grid-cols-1 gap-4">
-                {filtered.map((p)=>(
+                {filteredProducts.map((p)=>(
                     <Link href={`/product/${p.id}`} className="rounded-lg border p-4 hover:shadow-md">
                        <h2 className="font-semibold">{p.name}</h2>
             <p className="text-gray-500">{p.price}</p>
