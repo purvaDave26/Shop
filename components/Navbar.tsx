@@ -8,7 +8,7 @@ export default function Navbar()
             <Navlink href="/Home">HOme</Navlink>
             <Navlink href="/about">About</Navlink>
             <Navlink href="/product">Product</Navlink>
-
+            <Navlink href="/demo">Demo</Navlink>
         </nav>
     )
 }
